@@ -1,6 +1,5 @@
 import { Box, Flex, Button, Spacer, Menu, MenuButton, IconButton, Avatar, MenuList, MenuItem } from '@chakra-ui/react';
 import { useAuth } from '@/contexts/auth_user.context';
-import MoreBtnIcon from './more_btn_icon';
 
 const GNB = function () {
   const { loading, authUser, signOut, signInWithGoogle } = useAuth();

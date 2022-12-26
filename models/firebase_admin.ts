@@ -1,5 +1,13 @@
 import * as admin from 'firebase-admin';
 
+interface Config {
+  credential: {
+    privateKey: string;
+    clientEmail: string;
+    projectId: string;
+  };
+}
+
 const serviceAccount = require('../firestoreServiceAccount.json');
 
 export default class FirebaseAdmin {
@@ -24,7 +32,15 @@ export default class FirebaseAdmin {
       return;
     }
 
-    admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
+    const config: Config = {
+      credential: {
+        projectId: process.env.projectId || '',
+        clientEmail: process.env.clientEmail || '',
+        privateKey: (process.env.privateKey || '').replace(/\\n/g, '\n'),
+      },
+    };
+
+    admin.initializeApp({ credential: admin.credential.cert(config.credential) });
     console.info('bootstrap firebase admin');
   }
 

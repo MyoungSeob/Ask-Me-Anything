@@ -1,9 +1,12 @@
 import { Box, Button } from '@chakra-ui/react';
+import { useAuth } from '@/contexts/auth_user.context';
 
 interface GoogleLoginButtonProps {
   onClick: () => void;
 }
 const GoogleLoginButton = function ({ onClick }: GoogleLoginButtonProps) {
+  const { authUser } = useAuth();
+  const isOwner = authUser !== null;
   return (
     <Box>
       <Button
@@ -15,15 +18,23 @@ const GoogleLoginButton = function ({ onClick }: GoogleLoginButtonProps) {
         bgColor="#4285f4"
         colorScheme="white"
         leftIcon={
-          <img
-            src="/google.svg"
-            alt="google 로고"
-            style={{ backgroundColor: 'white', padding: '5px', borderRadius: '100px' }}
-          />
+          !isOwner ? (
+            <img
+              src="/google.svg"
+              alt="google 로고"
+              style={{ backgroundColor: 'white', padding: '5px', borderRadius: '100px' }}
+            />
+          ) : undefined
         }
-        onClick={onClick}
+        onClick={() => {
+          if (isOwner) {
+            window.location.href = `/${authUser.email?.replace('@gmail.com', '')}`;
+            return;
+          }
+          onClick();
+        }}
       >
-        Google 계정으로 시작하기
+        {isOwner ? '내 홈으로 이동' : 'Google 계정으로 시작하기'}
       </Button>
     </Box>
   );

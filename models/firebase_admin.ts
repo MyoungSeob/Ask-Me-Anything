@@ -8,8 +8,6 @@ interface Config {
   };
 }
 
-const serviceAccount = require('../firestoreServiceAccount.json');
-
 export default class FirebaseAdmin {
   public static instance: FirebaseAdmin;
 
